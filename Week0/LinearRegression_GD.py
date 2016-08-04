@@ -23,11 +23,7 @@ def compute_cost(X, y, theta):
 
     return J
 
-
-
-
-
-def GradientDescent(X, y, theta, alpha=0.1, iter = 100):
+def GradientDescent(X, y, theta, alpha=0.1, iter = 1000000):
     m = X.shape[0]
     J_history = []
 
@@ -40,7 +36,13 @@ def GradientDescent(X, y, theta, alpha=0.1, iter = 100):
         # 1 * n  n * 2 = 1 * 2
         theta_diff = error.dot(X_train) / m
         theta -= alpha * theta_diff.reshape(-1, 1)
-        J_history.append(compute_cost(X_train, y, theta))
+
+        cost = compute_cost(X_train, y, theta)
+
+        if i > 1 and np.abs(cost - J_history[-1]) == 0:
+            J_history.append(cost)
+            return theta, J_history
+        J_history.append(cost)
 
     return theta, J_history
 
