@@ -29,9 +29,6 @@ def gradient_descent(X, y, theta=np.ones(shape=(2,1)), learning_rate=0.01, max_i
 
   return theta, J_history
 
-
-
-
 if __name__ == "__main__":
   dataset = "./ex1data1.txt"
   X, Y = [], []
@@ -54,6 +51,9 @@ if __name__ == "__main__":
   print("Y = {} X + {}".format(regr.coef_[0][0], regr.intercept_[0]))
   theta, J_history = gradient_descent(X, Y)
   print("Expected\nY = {} X + {}".format(theta[0], theta[1]))
-  plt.plot(range(len(J_history)), J_history)
-  plt.show()
 
+  plt.plot(X, Y, 'bo')
+  plt.plot(X, regr.predict(X.reshape(-1, 1)), 'r-.', linewidth=3, alpha=0.3, label='regression line')
+  plt.plot(X, theta[0] * X + theta[1], 'g:', label='predict line')
+  plt.legend()
+  plt.show()
