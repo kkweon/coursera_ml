@@ -8,9 +8,9 @@ def gradientDescent(X, y, theta, alpha = 0.01, num_iters = 1500):
   Input
   ========================
   X : np.array (N, D+1)
-  y : np.array (N, )
+  y : np.array (N, 1)
 
-  theta : np.array (D+1, )
+  theta : np.array (D+1, 1)
   alpha : learning rate (float)
   
   num_iters : max iterations (int)
@@ -22,6 +22,8 @@ def gradientDescent(X, y, theta, alpha = 0.01, num_iters = 1500):
   J_history  :  list containing costs of each iterations
   '''
   m = X.shape[0]
+  y = y.reshape(-1, 1)
+  theta = theta.reshape(-1, 1)
   J_history = []
 
   for _ in range(num_iters):
