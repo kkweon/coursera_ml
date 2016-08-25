@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ex3 module &#8212; ex3 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ex3 1.0 documentation" href="index.html" />
+    <link rel="prev" title="EX3 Documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="EX3 Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ex3 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ex3">
+<span id="ex3-module"></span><h1>ex3 module<a class="headerlink" href="#module-ex3" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="base-file-for-exercise-3">
+<h2>BASE FILE for Exercise 3<a class="headerlink" href="#base-file-for-exercise-3" title="Permalink to this headline">¶</a></h2>
+<p>Logistics Regressions for Multiple Classes
+Neural Networks</p>
+<dl class="function">
+<dt id="ex3.lr_cost_function">
+<code class="descclassname">ex3.</code><code class="descname">lr_cost_function</code><span class="sig-paren">(</span><em>theta</em>, <em>X</em>, <em>y</em>, <em>lamda</em><span class="sig-paren">)</span><a class="headerlink" href="#ex3.lr_cost_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <span class="math">\(Cost(J) = -y * log(sigmoid(X * \theta)) - (1 - y) * log(1 - sigmoid(X*\theta))\)</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; np.array(D, 1)</li>
+<li><strong>X</strong> &#8211; np.array(N, D)</li>
+<li><strong>y</strong> &#8211; np.array(N, 1)</li>
+<li><strong>lamda</strong> &#8211; float &#8211; hyper parameter for regularization strength.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">float &#8211; cost J</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ex3.lr_grad_function">
+<code class="descclassname">ex3.</code><code class="descname">lr_grad_function</code><span class="sig-paren">(</span><em>theta</em>, <em>X</em>, <em>y</em>, <em>lamda</em><span class="sig-paren">)</span><a class="headerlink" href="#ex3.lr_grad_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Grad</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">잘 동작하고 있는 것 같지 않다.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; np.array(D, 1)</li>
+<li><strong>X</strong> &#8211; np.array(N, D)</li>
+<li><strong>y</strong> &#8211; np.array(N, 1)</li>
+<li><strong>lamda</strong> &#8211; float &#8211; hyper parameter for regularization strength.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.array(D, )</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ex3.oneVsAll">
+<code class="descclassname">ex3.</code><code class="descname">oneVsAll</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>num_labels</em>, <em>lamda</em>, <em>verbose=1</em><span class="sig-paren">)</span><a class="headerlink" href="#ex3.oneVsAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Theta for multi classes :math: <cite>X_0</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> &#8211; np.array(N, D)</li>
+<li><strong>y</strong> &#8211; np.array(N, 1)</li>
+<li><strong>num_labels</strong> &#8211; int &#8211; number of labels</li>
+<li><strong>lamda</strong> &#8211; float &#8211; for regularization strength</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.array(C, D) &#8211; <strong>all_theta</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ex3.predict">
+<code class="descclassname">ex3.</code><code class="descname">predict</code><span class="sig-paren">(</span><em>Theta1</em>, <em>Theta2</em>, <em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#ex3.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do the forward propagation of given Theta1, Theta2, and X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Theta1</strong> &#8211; np.array (given)</li>
+<li><strong>Theta2</strong> &#8211; np.array (given)</li>
+<li><strong>X</strong> &#8211; input (given)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.array(N,1) &#8211; correct classes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">predict</span><span class="p">(</span><span class="n">Theta1</span><span class="p">,</span> <span class="n">Theta2</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="go">np.array([1,5,2,...])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ex3.predictOneVsAll">
+<code class="descclassname">ex3.</code><code class="descname">predictOneVsAll</code><span class="sig-paren">(</span><em>all_theta</em>, <em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#ex3.predictOneVsAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict y given X</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The bias term(<cite>X_0</cite>) must be added</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>all_theta</strong> (<em>np.array(C, D)</em>) &#8211; C classes D dimensions</li>
+<li><strong>X</strong> (<em>np.array(N, D)</em>) &#8211; Input Matrix. Bias term should be added before.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.array(N,1) &#8211; correct classes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ex3.reshape">
+<code class="descclassname">ex3.</code><code class="descname">reshape</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#ex3.reshape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple Helper Function that turns np.array(n, ) to np.array(n, 1)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; np.array(N, )</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">np.array(N, 1)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ex3.sigmoid">
+<code class="descclassname">ex3.</code><code class="descname">sigmoid</code><span class="sig-paren">(</span><em>z</em><span class="sig-paren">)</span><a class="headerlink" href="#ex3.sigmoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Sigmoid(X)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>z</strong> &#8211; any value</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">float of the given shape</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ex3 module</a><ul>
+<li><a class="reference internal" href="#base-file-for-exercise-3">BASE FILE for Exercise 3</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">EX3 Documentation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ex3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="EX3 Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ex3 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, kyung mo kweon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>
