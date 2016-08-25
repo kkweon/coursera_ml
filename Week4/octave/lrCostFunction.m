@@ -34,16 +34,18 @@ grad = zeros(size(theta));
 %           temp(1) = 0;   % because we don't add anything for j = 0  
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
-scores = sigmoid(X * theta);
-J = sum(-y .* log(scores) - (1 - y) .* log(1 - scores), axis=1)/m + sum(theta.^2) * lambda / (2*m);
 
-dTheta = X' * (scores - y);
-theta_copy = theta;
-theta_copy(1) = 0;
+z = X * theta;
+h = sigmoid(z);
 
-grad -= dTheta + lambda .* theta_copy ./ m;
-% =============================================================
+J_i = -y .* log(h) - (1-y) .* log(1-h);
+J = sum(J_i)./m + lambda / (2 * m) .* sum(theta(2:end).^2);
 
-grad = grad(:);
+temp = theta;
+temp(1) = 0;
+
+grad = X' * (h - y) / m;
+grad += temp * lambda / m;
+
 
 end
