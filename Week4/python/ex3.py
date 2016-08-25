@@ -69,6 +69,7 @@ def lr_grad_function(theta, X, y, lamda):
 
   '''
   y = reshape(y)
+
   theta = reshape(theta)
 
   m = X.shape[0]
@@ -162,4 +163,4 @@ if __name__ == '__main__':
 
   print("Accuracy: {:.2%} <--- should be greater than 94.9%".format(np.mean(p==y)))
 
-    
+ 
