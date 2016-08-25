@@ -3,10 +3,19 @@ BASE FILE for Exercise 3
 ==========================
 Logistics Regressions for Multiple Classes
 Neural Networks
+
+**Written In Python3**
 '''
 import numpy as np
 import scipy.io as sio
-from scipy.optimize import fmin_cg, fmin_bfgs, minimize
+from scipy.optimize import fmin_cg
+
+def bias_trick(X):
+  """Bias Trick. Add bias terms to X
+  :param X: np.matrix (N, D)
+  :returns: np.matrix (N, D+1)
+  """
+  return np.append(np.ones(shape=(X.shape[0],1)), X, axis=1)
 
 def sigmoid(z):
   '''Returns Sigmoid(X)
@@ -26,12 +35,6 @@ def reshape(x):
   '''
   return x.reshape(-1, 1)
 
-'''
-Assignment Begins
------------------------------
-
-'''
-
 def lr_cost_function(theta, X, y, lamda):
   """Returns :math:`Cost(J) = -y * log(sigmoid(X * \\theta)) - (1 - y) * log(1 - sigmoid(X*\\theta))`
 
@@ -44,9 +47,7 @@ def lr_cost_function(theta, X, y, lamda):
   """
   y = reshape(y)
   theta = reshape(theta)
-
   m = X.shape[0]
-
   z = X.dot(theta)
   h = sigmoid(z)
   J_i = -y * np.log(h) - (1 - y) * np.log(1 - h)
@@ -69,7 +70,6 @@ def lr_grad_function(theta, X, y, lamda):
 
   '''
   y = reshape(y)
-
   theta = reshape(theta)
 
   m = X.shape[0]
@@ -99,13 +99,9 @@ def oneVsAll(X, y, num_labels, lamda, verbose=1):
   all_theta = np.zeros(shape=(num_labels, X.shape[1]))
 
   for i in range(num_labels):
-    initial_theta = np.random.randn(X.shape[1], 1) + 1e-9
-    #theta_found = fmin_cg(lr_cost_function, initial_theta, fprime=lr_grad_function, args=(X, (y==i+1), lamda), disp=verbose)
-    theta_found = fmin_bfgs(lr_cost_function, initial_theta, fprime=lr_grad_function, args=(X, (y==i+1), lamda), disp=verbose)
+    initial_theta = np.random.randn(*(X.shape[1], 1)) + 1e-5
+    theta_found = fmin_cg(lr_cost_function, initial_theta, fprime=lr_grad_function, args=(X, (y==i+1)*1, lamda), disp=verbose)
     all_theta[i, :] = theta_found.flatten()
-    # theta_found = minimize(lr_cost_function, initial_theta, jac=lr_grad_function, args=(X, (y==i+1), lamda)) 
-    # print(theta_found.success)
-    # all_theta[i, :] = theta_found.x.flatten()
   return all_theta
 
 def predictOneVsAll(all_theta, X):
@@ -122,7 +118,7 @@ def predictOneVsAll(all_theta, X):
   :returns: np.array(N,1) -- correct classes
   '''
   X = np.append(np.ones(shape=(X.shape[0], 1)), X, axis=1)
-  z = (X).dot(all_theta.T)
+  z = X.dot(all_theta.T)
   h = sigmoid(z)
 
   max_indices = np.argmax(h, axis=1)
@@ -140,10 +136,18 @@ def predict(Theta1, Theta2, X):
   >>> predict(Theta1, Theta2, X)
   np.array([1,5,2,...])
   '''
-  pass
-  return p
+  X = bias_trick(X)
+  h1 = sigmoid(X.dot(Theta1.T))
+  X_next = bias_trick(h1)
+  h2 = sigmoid(X_next.dot(Theta2.T))
+
+  idx = np.argmax(h2, axis=1)
+
+  p = idx + 1
+  return p.reshape(-1, 1)
 
 if __name__ == '__main__':
+  ## DO NOT CHANGE
   data1 = sio.loadmat('ex3data1.mat')
   data2 = sio.loadmat('ex3weights.mat')
 
@@ -157,10 +161,24 @@ if __name__ == '__main__':
 
   num_labels = 10
   l = 0.1
+  # INPUT ENDS
 
+  # CHECK VARIABLES
+  STMT = """
+=======================
+X.shape: {}
+y.shape: {}
+
+Theta1.shape: {}
+Theta2.shape: {}
+========================
+  """.format(X.shape, y.shape, Theta1.shape, Theta2.shape)
+  print(STMT)
   all_theta = oneVsAll(X, y, num_labels, l, verbose=0)
   p = predictOneVsAll(all_theta, X)
 
-  print("Accuracy: {:.2%} <--- should be greater than 94.9%".format(np.mean(p==y)))
+  print("Logistic Regression Accuracy: {:.2%} <--- should be greater than 94.9%".format(np.mean(p==y)))
 
- 
+  
+  p = predict(Theta1, Theta2, X)
+  print("Neural Network Accuracy: {:.2%} <--- should be greater than previous".format(np.mean(p==y))) 
