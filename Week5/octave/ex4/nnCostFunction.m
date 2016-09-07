@@ -18,10 +18,8 @@ function [J grad] = nnCostFunction(nn_params, ...
 % for our 2 layer neural network
 Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
                  hidden_layer_size, (input_layer_size + 1));
-
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
-
 % Setup some useful variables
 m = size(X, 1);
          
@@ -62,30 +60,42 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% X: (N, D) +1 for bias term
+% Theta1: (H, D+1)
+% Theta2: (C, H+1)
+% y: (N, 1)
 
+% Feed Forward
+X = [ones(size(X)(1), 1), X]; % bias trick (N, D+1)
+init = X * Theta1'; % (N, H)
+init = sigmoid(init);
 
+init_with_bias = [ones(size(init), 1), init]; % (N, H+1)
+score = init_with_bias * Theta2'; % (N, C)
+score = sigmoid(score);
 
+incorrect_score = 1 - score;
+log_ic_scores = log(1-score);
+row_ic = sum(log_ic_scores, 2); %since it includes correct terms we have to subtract it
+row_ic = row_ic - diag(log_ic_scores(:, y));
+correct_scores = diag(score(:, y)); % (N, 1)
+log_c_scores = log(correct_scores);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+%-1 * correct_scores - log(1 - incorrect_scores)
+J = mean(-1 .* log_c_scores - row_ic);
+reg_sum = sum(sum(Theta1(:, 2:end).^2)) + sum(sum(Theta2(:, 2:end).^2)); % regularization term
+reg_term = lambda .* reg_sum ./ (2 * m); 
+J += reg_term;
 
 % -------------------------------------------------------------
+temp = (score)' * X;
+    
 
 % =========================================================================
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
+
 
 
 end
