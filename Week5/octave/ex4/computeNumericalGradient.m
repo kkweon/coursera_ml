@@ -15,7 +15,7 @@ function numgrad = computeNumericalGradient(J, theta)
 
 numgrad = zeros(size(theta));
 perturb = zeros(size(theta));
-e = 1e-4;
+e = 1e-5;
 for p = 1:numel(theta)
     % Set perturbation vector
     perturb(p) = e;

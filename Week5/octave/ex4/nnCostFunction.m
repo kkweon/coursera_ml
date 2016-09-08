@@ -64,21 +64,20 @@ Theta2_grad = zeros(size(Theta2));
 % Theta1: (H, D+1)
 % Theta2: (C, H+1)
 % y: (N, 1)
-
 % Feed Forward
 X = [ones(size(X)(1), 1), X]; % bias trick (N, D+1)
-init = X * Theta1'; % (N, H)
-init = sigmoid(init);
+z2 = X * Theta1'; % (N, H)
+pre_a2 = sigmoid(z2);
 
-init_with_bias = [ones(size(init), 1), init]; % (N, H+1)
-score = init_with_bias * Theta2'; % (N, C)
-score = sigmoid(score);
+a2 = [ones(size(pre_a2), 1), pre_a2]; % (N, H+1)
+z3 = a2 * Theta2'; % (N, C)
+a3 = sigmoid(z3);
 
-incorrect_score = 1 - score;
-log_ic_scores = log(1-score);
+incorrect_score = 1 - a3;
+log_ic_scores = log(1 - a3);
 row_ic = sum(log_ic_scores, 2); %since it includes correct terms we have to subtract it
 row_ic = row_ic - diag(log_ic_scores(:, y));
-correct_scores = diag(score(:, y)); % (N, 1)
+correct_scores = diag(a3(:, y)); % (N, 1)
 log_c_scores = log(correct_scores);
 
 %-1 * correct_scores - log(1 - incorrect_scores)
@@ -88,9 +87,29 @@ reg_term = lambda .* reg_sum ./ (2 * m);
 J += reg_term;
 
 % -------------------------------------------------------------
-temp = (score)' * X;
-    
+% Theta2_grad should be (C, H+1)
+% a3:= (N, C) a2:= (N, H+1), a3 - y := (N, C)
+% Theta1_grad should be (H, D+1)
+% Theta1_grad = Theta2(:, 2:end)' * (a3-y)' .* pre_a2 .* (1 - pre_a2) * X
+y_matrix = zeros(m, num_labels);
+idx = sub2ind(size(y_matrix), 1:size(y_matrix, 1), y');
+y_matrix(idx) = 1;
 
+Theta2_grad = (a3 - y_matrix)' * a2;
+Theta1_grad = (a3 - y_matrix) * Theta2(:, 2:end) .* sigmoidGradient(z2);
+Theta1_grad = Theta1_grad' * X;
+
+Theta1_grad /= m;
+Theta2_grad /= m;
+
+
+% Regularization Terms
+temp_Theta1 = Theta1;
+temp_Theta1(:, 1) = 0;
+temp_Theta2 = Theta2;
+temp_Theta2(:, 1) = 0;
+Theta1_grad += lambda * temp_Theta1/m;
+Theta2_grad += lambda * temp_Theta2/m;
 % =========================================================================
 
 % Unroll gradients
