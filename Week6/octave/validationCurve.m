@@ -14,7 +14,7 @@ lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
 
 % You need to return these variables correctly.
 error_train = zeros(length(lambda_vec), 1);
-error_val = zeros(length(lambda_vec), 1);
+error_val   = zeros(length(lambda_vec), 1);
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return training errors in 
@@ -38,8 +38,16 @@ error_val = zeros(length(lambda_vec), 1);
 %       end
 %
 %
+for i = 1:length(lambda_vec)
+    lambda     = lambda_vec(i);
+		best_theta = trainLinearReg(X, y, lambda);
 
+		[J_train, grad] = linearRegCostFunction(   X,    y, best_theta, 0);
+		[J_val,   grad] = linearRegCostFunction(Xval, yval, best_theta, 0);
 
+		error_train(i) = J_train;
+		error_val(i)   = J_val;
+end
 
 
 
