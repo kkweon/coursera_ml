@@ -39,14 +39,28 @@ Theta_grad = zeros(size(Theta));
 %        Theta_grad - num_users x num_features matrix, containing the 
 %                     partial derivatives w.r.t. to each element of Theta
 %
+% X = (M, D)
+% Theta = (U, D)
+% Y = (M, U)
+% R = (M, U)
+
+loss = (X * Theta').* R - Y.*R;
+J += sum(sum(loss .^2)) / 2;
 
 
 
 
+X_grad += ((X * Theta').*R - Y.*R) * Theta;
+Theta_grad  += ((X * Theta').*R - Y.*R)' * X;
 
 
 
+% Regularization Terms
 
+J += lambda / 2 * (sum(sum(Theta .^ 2))  + sum(sum(X.^2)));
+
+X_grad += lambda * X;
+Theta_grad += lambda * Theta;
 
 
 
